@@ -15,16 +15,16 @@ export interface IChat extends Document{
 const chatSchema:Schema<IChat> = new Schema({
     users:[{
         type: String,
-        required: true
+       
     }],
     latestMessage:{
         text: {
             type: String,
-            required: true
+           
         },
         sender: {
             type: String,
-            required: true
+           
         }
     },
 },{timestamps:true})
