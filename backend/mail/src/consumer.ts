@@ -23,6 +23,11 @@ export const  startSendOtpConsumer  = async ()=>{
     if(msg){
       try {
         const {to,subject, body} = JSON.parse(msg.content.toString());
+         if (!to || !subject || !body) {
+            console.error('❌ Missing email data. Skipping message:', { to, subject, body });
+            channel.nack(msg, false, false); // Reject and discard the message
+            return;
+          }
         
         const transporter = nodemailer.createTransport({
           host: process.env.SMTP_HOST,
