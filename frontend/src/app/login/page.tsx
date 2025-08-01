@@ -1,9 +1,10 @@
 "use client"
-import { ArrowRight, Mail } from 'lucide-react'
+import { ArrowRight, Loader2, Mail } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import {useState} from "react"
 import React from 'react'
 import axios from 'axios'
+import { user_service } from '@/context/Appcontext'
 
 const Loginpage = () => {
     const [email, setEmail] = useState<string>("")
@@ -14,11 +15,11 @@ const Loginpage = () => {
         setLoading(true)
 
         try {
-            const {data}  = await axios.post(`http://localhost:5000/api/v1/login`,{email})
+            const {data}  = await axios.post(`${user_service}/api/v1/login`,{email});
             alert(data.message)
             router.push(`/verify?email=${email}`)
         } catch (error:any) {
-            alert(error.response?.data?.message || "Something went wrong");
+           alert(error.response.data.message)
         }finally{
             setLoading(false)
         }
@@ -34,16 +35,22 @@ const Loginpage = () => {
                     <h1 className="text-4xl text-white mb-3">Welcome to Chat App</h1>
                     <p className="text-gray-300 text-lg">Enter your email to continue your Journey</p>
                 </div>
-                <form className='space-y-6'>
+                <form onSubmit={handleSubmit} className='space-y-6'>
                     <div>
                         <label htmlFor="email" className='block text-sm font-medium text-gray-300 mb-1'>Email Address</label>
                         <input type="email" id="email" className='w-full px-4 py-4 bg-gray-700 border border-gray-600 rounded-lg outline-0 text-white' placeholder='Enter your email'required  value={email} onChange={(e)=>setEmail(e.target.value)}/>
                     </div>
-                    <button type='submit' className=' bg-blue-600 py-4 px-6 font-semibold w-full rounded-lg text-white hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-300 flex items-center justify-center gap-2'>
-                        <div className='flex items-center justify-center gap-2 '>
+                    <button type='submit' className=' bg-blue-600 py-4 px-6 font-semibold w-full rounded-lg text-white hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-300 flex items-center justify-center gap-2' disabled={loading}>
+
+                        {
+                            loading ? <div className='flex items-center justify-center gap-2'>
+                              <Loader2 className='w-5 h-5 animate-spin text-white' /> Sending otp...
+                            </div> :  <div className='flex items-center justify-center gap-2 '>
                            <span>Send Verification code</span>
                            <ArrowRight className='w-5 h-5'/>
                         </div>
+                        }
+                       
                     </button>
                 </form>
 
