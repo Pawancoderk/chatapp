@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import "./globals.css";
 import { AppProvider } from "@/context/Appcontext";
+import { SocketProvider } from "@/context/SocketContext";
 
 
 
@@ -21,7 +22,9 @@ export default function RootLayout({
         
       >
        <AppProvider>
-         {children}
+        <SocketProvider>
+           {children}
+        </SocketProvider>
        </AppProvider>
       </body>
     </html>
