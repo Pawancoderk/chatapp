@@ -67,7 +67,7 @@ const ChatMessages = ({
                         />
                       </div>
                     )}
-                    {e.text && <p>{e.text}</p>}
+                    {e.text && <p className="">{e.text}</p>}
                   </div>
                   <div
                     className={`flex items-center gap-1  text-xs text-gray-400 ${
